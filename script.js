@@ -839,6 +839,7 @@ async function renderAdminTrials() {
     `;
   }).join("");
 }
+
 async function setupAdminPage() {
   const adminContent = document.getElementById("adminContent");
   if (!adminContent) return;
@@ -912,7 +913,6 @@ function initAdminControls() {
     }
   });
 }
-
 
 // =========================
 //      INIT
