@@ -19,6 +19,7 @@ import {
   getDocs,
   getDoc,
   doc,
+  setDoc,
   updateDoc,
   deleteDoc,
   query,
@@ -71,16 +72,21 @@ function setCurrentUserProfile(profile) {
 //   FIRESTORE HELPERS
 // =========================
 
+// ✔ Исправлено: теперь документ профиля = UID
 async function loadUserProfile(uid) {
-  const q = query(collection(db, USERS_COLLECTION), where("uid", "==", uid));
-  const snap = await getDocs(q);
-  if (snap.empty) return null;
-  const docSnap = snap.docs[0];
-  return { id: docSnap.id, ...docSnap.data() };
+  const ref = doc(db, USERS_COLLECTION, uid);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) return null;
+
+  return { id: ref.id, ...snap.data() };
 }
 
+// ✔ Исправлено: setDoc вместо addDoc, ID = UID
 async function createUserProfile(uid, { name, email, level, role }) {
-  const ref = await addDoc(collection(db, USERS_COLLECTION), {
+  const ref = doc(db, USERS_COLLECTION, uid);
+
+  await setDoc(ref, {
     uid,
     name,
     email,
@@ -88,6 +94,7 @@ async function createUserProfile(uid, { name, email, level, role }) {
     role,
     createdAt: new Date().toISOString()
   });
+
   const snap = await getDoc(ref);
   return { id: ref.id, ...snap.data() };
 }
@@ -282,266 +289,6 @@ function setupPhoneMask(input) {
     input.value = formatted;
   });
 }
-
-// =========================
-//      AUTH PAGE
-// =========================
-
-function setupAuthPage() {
-  const registerBlock = document.getElementById("registerBlock");
-  const loginBlock = document.getElementById("loginBlock");
-  const registerForm = document.getElementById("registerForm");
-  const loginForm = document.getElementById("loginForm");
-  const switchToLogin = document.getElementById("switchToLogin");
-  const switchToRegister = document.getElementById("switchToRegister");
-  const registerAlert = document.getElementById("registerAlert");
-  const loginAlert = document.getElementById("loginAlert");
-
-  if (!registerForm || !loginForm) return;
-
-  function showAlert(el, type, text) {
-    el.className = "alert " + (type === "error" ? "alert-error" : "alert-success");
-    el.textContent = text;
-    el.style.display = "block";
-  }
-
-  function clearAlert(el) {
-    if (el) el.style.display = "none";
-  }
-
-  const defaultMode = document.body.dataset.default;
-  if (defaultMode === "login") {
-    if (registerBlock) registerBlock.style.display = "none";
-    if (loginBlock) loginBlock.style.display = "block";
-  }
-
-  switchToLogin?.addEventListener("click", () => {
-    if (registerBlock) registerBlock.style.display = "none";
-    if (loginBlock) loginBlock.style.display = "block";
-    clearAlert(registerAlert);
-    clearAlert(loginAlert);
-  });
-
-  switchToRegister?.addEventListener("click", () => {
-    if (loginBlock) loginBlock.style.display = "none";
-    if (registerBlock) registerBlock.style.display = "block";
-    clearAlert(registerAlert);
-    clearAlert(loginAlert);
-  });
-
-  // REGISTRATION
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    clearAlert(registerAlert);
-
-    const name = registerForm.elements["name"].value.trim();
-    const email = registerForm.elements["email"].value.trim().toLowerCase();
-    const password = registerForm.elements["password"].value;
-    const level = registerForm.elements["level"].value;
-
-    if (!name || !email || !password) {
-      showAlert(registerAlert, "error", "Заполните все обязательные поля.");
-      return;
-    }
-
-    if (password.length < 6) {
-      showAlert(registerAlert, "error", "Пароль должен быть не короче 6 символов.");
-      return;
-    }
-
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(cred.user, { displayName: name });
-
-      const profile = await createUserProfile(cred.user.uid, {
-        name,
-        email,
-        level,
-        role: "user"
-      });
-
-      setCurrentUserProfile(profile);
-      updateHeaderAuth();
-
-      showAlert(registerAlert, "success", "Регистрация успешна! Перенаправляем...");
-      showToast("Регистрация успешна", "success");
-
-      setTimeout(() => {
-        window.location.href = "profile.html";
-      }, 900);
-
-    } catch (err) {
-      console.error(err);
-      showAlert(registerAlert, "error", "Ошибка регистрации");
-      showToast("Ошибка регистрации", "error");
-    }
-  });
-
-  // LOGIN
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    clearAlert(loginAlert);
-
-    const email = loginForm.elements["email"].value.trim().toLowerCase();
-    const password = loginForm.elements["password"].value;
-
-    if (!email || !password) {
-      showAlert(loginAlert, "error", "Введите email и пароль.");
-      return;
-    }
-
-    try {
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      const profile = await loadUserProfile(cred.user.uid);
-
-      if (!profile) {
-        showAlert(loginAlert, "error", "Профиль не найден.");
-        return;
-      }
-
-      setCurrentUserProfile(profile);
-      updateHeaderAuth();
-
-      showAlert(loginAlert, "success", "Вход выполнен! Перенаправляем...");
-      showToast("Добро пожаловать!", "success");
-
-      setTimeout(() => {
-        if (profile.role === "admin") window.location.href = "admin.html";
-        else window.location.href = "profile.html";
-      }, 700);
-
-    } catch (err) {
-      console.error(err);
-      showAlert(loginAlert, "error", "Неверный email или пароль.");
-      showToast("Ошибка входа", "error");
-    }
-  });
-}
-
-// =========================
-//      PROFILE PAGE
-// =========================
-
-async function setupProfilePage() {
-  const profileForm = document.getElementById("profileForm");
-  if (!profileForm) return;
-
-  // Ждём Firebase
-  onAuthStateChanged(auth, async (firebaseUser) => {
-    if (!firebaseUser) {
-      window.location.href = "auth.html";
-      return;
-    }
-
-    const user = await loadUserProfile(firebaseUser.uid);
-    if (!user) {
-      window.location.href = "auth.html";
-      return;
-    }
-
-    setCurrentUserProfile(user);
-    updateHeaderAuth();
-
-    const profileName = document.getElementById("profileName");
-    const profileEmail = document.getElementById("profileEmail");
-    const profileLevel = document.getElementById("profileLevel");
-    const profileAvatar = document.getElementById("profileAvatar");
-    const profileTrials = document.getElementById("profileTrials");
-
-    profileName.textContent = user.name || user.email;
-    profileEmail.textContent = user.email;
-    profileLevel.textContent = user.level ? `Уровень: ${user.level}` : "Уровень не указан";
-
-    if (profileAvatar) {
-      profileAvatar.textContent = (user.name || user.email)[0].toUpperCase();
-    }
-
-    profileForm.elements["name"].value = user.name || "";
-    profileForm.elements["email"].value = user.email || "";
-    profileForm.elements["level"].value = user.level || "";
-
-    profileForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = profileForm.elements["name"].value.trim();
-      const email = profileForm.elements["email"].value.trim().toLowerCase();
-      const level = profileForm.elements["level"].value;
-
-      if (!email) {
-        showToast("Email не может быть пустым", "error");
-        return;
-      }
-
-      try {
-        const ref = doc(db, USERS_COLLECTION, user.id);
-        await updateDoc(ref, { name, email, level });
-
-        if (name) {
-          await updateProfile(auth.currentUser, { displayName: name });
-        }
-
-        const updated = { ...user, name, email, level };
-        setCurrentUserProfile(updated);
-
-        profileName.textContent = updated.name || updated.email;
-        profileEmail.textContent = updated.email;
-        profileLevel.textContent = updated.level ? `Уровень: ${updated.level}` : "Уровень не указан";
-
-        if (profileAvatar) {
-          profileAvatar.textContent = (updated.name || updated.email)[0].toUpperCase();
-        }
-
-        updateHeaderAuth();
-        showToast("Профиль обновлён", "success");
-
-      } catch (err) {
-        console.error(err);
-        showToast("Ошибка обновления профиля", "error");
-      }
-    });
-
-    // Заявки пользователя
-    try {
-      const q = query(
-        collection(db, TRIALS_COLLECTION),
-        where("userId", "==", firebaseUser.uid),
-        orderBy("createdAt", "desc")
-      );
-
-      const snap = await getDocs(q);
-
-      if (snap.empty) {
-        profileTrials.textContent = "У вас пока нет записей на пробный урок.";
-      } else {
-        const list = document.createElement("ul");
-        list.className = "profile-list";
-
-        snap.forEach(docSnap => {
-          const t = docSnap.data();
-          const statusText =
-            t.status === "done"
-              ? " (обработана)"
-              : t.status === "confirmed"
-              ? " (подтверждена)"
-              : t.status === "cancelled"
-              ? " (отменена)"
-              : "";
-
-          const li = document.createElement("li");
-          li.textContent = `${t.direction} — ${t.date} в ${t.time}${statusText} • отправлена ${formatDateTime(t.createdAt)}`;
-          list.appendChild(li);
-        });
-
-        profileTrials.innerHTML = "";
-        profileTrials.appendChild(list);
-      }
-    } catch (err) {
-      console.error(err);
-      profileTrials.textContent = "Ошибка загрузки заявок.";
-    }
-  });
-}
-
 // =========================
 //      TRIAL PAGE
 // =========================
@@ -569,13 +316,11 @@ async function setupTrialPage() {
     if (found) select.value = found.value;
   }
 
-  // Ждём, пока Firebase определит пользователя
   let currentUser = null;
   onAuthStateChanged(auth, (firebaseUser) => {
     currentUser = firebaseUser;
   });
 
-  // Черновик заявки
   const draftRaw = localStorage.getItem(TRIAL_DRAFT_KEY);
   if (draftRaw) {
     try {
@@ -607,7 +352,6 @@ async function setupTrialPage() {
     alertBox.style.display = "block";
   }
 
-  // Отправка заявки
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     alertBox.style.display = "none";
@@ -636,15 +380,18 @@ async function setupTrialPage() {
     }
 
     try {
-      await setDoc(doc(db, USERS_COLLECTION, uid), {
-  uid,
-  name,
-  email,
-  level,
-  role,
-  createdAt: new Date().toISOString()
-});
-
+      await addDoc(collection(db, TRIALS_COLLECTION), {
+        name,
+        phone,
+        email,
+        direction,
+        date,
+        time,
+        comment,
+        userId: currentUser ? currentUser.uid : null,
+        status: "new",
+        createdAt: new Date().toISOString()
+      });
 
       localStorage.removeItem(TRIAL_DRAFT_KEY);
       form.reset();
