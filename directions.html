@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Направления обучения — Музыкальная школа</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <div class="logo-circle">M</div>
+      <div class="logo-text">Music School</div>
+    </div>
+<div class="mobile-menu" data-mobile-menu>
+  <a href="index.html">Главная</a>
+  <a href="directions.html">Направления</a>
+  <a href="trial.html">Пробный урок</a>
+  <a href="profile.html">Профиль</a>
+</div>
+
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="directions.html">Направления</a>
+        <a href="trial.html">Пробный урок</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </div>
+
+    <div class="nav-right">
+      <button class="mobile-menu-btn" data-mobile-menu-btn>☰</button>
+      <div class="theme-toggle" data-theme-toggle>
+        <span class="theme-toggle-icon">🌓</span>
+        <span data-theme-label>Тёмная</span>
+      </div>
+
+      <div class="profile-menu-wrapper" data-profile-wrapper>
+        <button type="button" class="profile-avatar-btn" data-profile-avatar style="display:none;">U</button>
+        <a href="auth.html" class="btn btn-outline" data-login-btn>Войти</a>
+
+        <div class="profile-menu" data-profile-menu>
+          <div class="profile-menu-header" data-profile-menu-header>Привет!</div>
+          <div class="profile-menu-item" data-menu-profile>Профиль</div>
+          <div class="profile-menu-item" data-menu-admin style="display:none;">Админ‑панель</div>
+          <div class="profile-menu-item" data-menu-logout>Выйти</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <h1 class="hero-title">Направления обучения</h1>
+    <p class="section-subtitle">
+      Выберите инструмент или дисциплину — мы подберём программу под ваш уровень и цели.
+    </p>
+
+    <div class="cards-grid directions">
+
+      <!-- Фортепиано -->
+      <div class="card">
+        <h2 class="card-title">Фортепиано</h2>
+        <p class="card-desc">Классика и современная музыка.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Фортепиано" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Эстрадный вокал -->
+      <div class="card">
+        <h2 class="card-title">Эстрадный вокал</h2>
+        <p class="card-desc">Постановка голоса, дыхание, сцена.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Эстрадный%20вокал" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Гитара -->
+      <div class="card">
+        <h2 class="card-title">Гитара</h2>
+        <p class="card-desc">Акустическая и электрогитара.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Гитара" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Сольфеджио / теория -->
+      <div class="card">
+        <h2 class="card-title">Сольфеджио / теория</h2>
+        <p class="card-desc">Ноты, ритм, гармония.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Сольфеджио%20%2F%20теория" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Детская программа -->
+      <div class="card">
+        <h2 class="card-title">Детская программа</h2>
+        <p class="card-desc">4–7 лет, игровые занятия.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Детская%20программа" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Барабаны -->
+      <div class="card">
+        <h2 class="card-title">Барабаны</h2>
+        <p class="card-desc">Ритм, координация, драйв.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Барабаны" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Скрипка -->
+      <div class="card">
+        <h2 class="card-title">Скрипка</h2>
+        <p class="card-desc">Классика и современность.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Скрипка" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+      <!-- Электронная музыка -->
+      <div class="card">
+        <h2 class="card-title">Электронная музыка</h2>
+        <p class="card-desc">Продакшн, битмейкинг, DAW.</p>
+        <div class="card-footer">
+          <a href="trial.html?direction=Электронная%20музыка" class="btn btn-primary">Записаться</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© Музыкальная школа, 2026</span>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

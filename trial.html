@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Пробный урок</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <div class="logo-circle">M</div>
+      <div class="logo-text">Music School</div>
+    </div>
+    <div class="mobile-menu" data-mobile-menu>
+  <a href="index.html">Главная</a>
+  <a href="directions.html">Направления</a>
+  <a href="trial.html">Пробный урок</a>
+  <a href="profile.html">Профиль</a>
+</div>
+
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="directions.html">Направления</a>
+        <a href="trial.html">Пробный урок</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="mobile-menu-btn" data-mobile-menu-btn>☰</button>
+      <div class="theme-toggle" data-theme-toggle>
+        <span class="theme-toggle-icon">🌓</span>
+        <span data-theme-label>Тёмная</span>
+      </div>
+      <div class="profile-menu-wrapper" data-profile-wrapper>
+        <button type="button" class="profile-avatar-btn" data-profile-avatar style="display:none;">U</button>
+        <a href="auth.html" class="btn btn-outline" data-login-btn>Войти</a>
+        <div class="profile-menu" data-profile-menu>
+          <div class="profile-menu-header" data-profile-menu-header>Привет!</div>
+          <div class="profile-menu-item" data-menu-profile>Профиль</div>
+          <div class="profile-menu-item" data-menu-admin style="display:none;">Админ‑панель</div>
+          <div class="profile-menu-item" data-menu-logout>Выйти</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="form-card">
+      <h1 class="form-title">Запись на пробный урок</h1>
+
+      <div id="trialAlert" class="alert" style="display:none;"></div>
+
+      <form id="trialForm">
+
+        <div class="form-group">
+          <label>Имя *</label>
+          <input name="name" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Телефон *</label>
+          <input name="phone" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input name="email" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Направление *</label>
+          <select name="direction" class="form-select">
+            <option value="">Выберите направление</option>
+            <option>Фортепиано</option>
+            <option>Эстрадный вокал</option>
+            <option>Гитара</option>
+            <option>Сольфеджио / теория</option>
+            <option>Детская программа</option>
+            <option>Барабаны</option>
+            <option>Скрипка</option>
+            <option>Электронная музыка</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Дата *</label>
+          <input type="date" name="date" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Время *</label>
+          <select name="time" class="form-select">
+            <option value="">Выберите время</option>
+            <option>10:00</option>
+            <option>11:00</option>
+            <option>12:00</option>
+            <option>14:00</option>
+            <option>16:00</option>
+            <option>18:00</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Комментарий</label>
+          <textarea name="comment" class="form-textarea"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Отправить</button>
+
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© Музыкальная школа, 2026</span>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

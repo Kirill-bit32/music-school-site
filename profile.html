@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Музыкальная школа — Профиль ученика</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="profile">
+
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <div class="logo-circle">M</div>
+      <div class="logo-text">Music School</div>
+    </div>
+    <div class="mobile-menu" data-mobile-menu>
+  <a href="index.html">Главная</a>
+  <a href="directions.html">Направления</a>
+  <a href="trial.html">Пробный урок</a>
+  <a href="profile.html">Профиль</a>
+</div>
+
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="directions.html">Направления</a>
+        <a href="trial.html">Пробный урок</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="mobile-menu-btn" data-mobile-menu-btn>☰</button>
+      <div class="theme-toggle" data-theme-toggle>
+        <span class="theme-toggle-icon">🌓</span>
+        <span data-theme-label>Тёмная</span>
+      </div>
+      <div class="profile-menu-wrapper" data-profile-wrapper>
+        <button type="button" class="profile-avatar-btn" data-profile-avatar style="display:none;">U</button>
+        <a href="auth.html" class="btn btn-outline" data-login-btn>Войти</a>
+        <div class="profile-menu" data-profile-menu>
+          <div class="profile-menu-header" data-profile-menu-header>Привет!</div>
+          <div class="profile-menu-item" data-menu-profile>Профиль</div>
+          <div class="profile-menu-item" data-menu-admin style="display:none;">Админ‑панель</div>
+          <div class="profile-menu-item" data-menu-logout>Выйти</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Ученик музыкальной школы
+        </div>
+        <a href="trial.html" class="form-link">Записаться на пробный урок</a>
+      </div>
+
+      <div class="profile-main">
+        <div class="profile-avatar" id="profileAvatar">U</div>
+        <div class="profile-info">
+          <h2 id="profileName">Имя ученика</h2>
+          <p id="profileEmail">email@example.com</p>
+        </div>
+      </div>
+
+      <div class="profile-meta">
+        <span id="profileLevel">Уровень: —</span>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div class="profile-section-title">Редактирование профиля</div>
+        <form id="profileForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="profName">Имя и фамилия</label>
+              <input id="profName" name="name" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profLevel">Уровень</label>
+              <select id="profLevel" name="level" class="form-select">
+                <option value="">Не выбрано</option>
+                <option>Полный новичок</option>
+                <option>Немного играл(а)/пел(а)</option>
+                <option>Учился(лась) раньше</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="profEmail">Email</label>
+              <input id="profEmail" name="email" type="email" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profPassword">Новый пароль</label>
+              <input id="profPassword" name="password" type="password" class="form-input" placeholder="Оставьте пустым, если не меняете">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:4px;">Сохранить изменения</button>
+        </form>
+      </div>
+
+      <div>
+        <div class="profile-section-title">Ваши записи на пробные уроки</div>
+        <div id="profileTrials" class="profile-list">
+          Загрузка...
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© Музыкальная школа, 2026</span>
+    <span>Ваши занятия — ваша история в музыке.</span>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

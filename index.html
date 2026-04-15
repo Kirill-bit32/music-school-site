@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Музыкальная школа — Главная</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="home">
+
+<!-- header как выше -->
+<header>
+  <div class="navbar">
+    <div class="logo">
+      <div class="logo-circle">M</div>
+      <div class="logo-text">Music School</div>
+    </div>
+    <div class="mobile-menu" data-mobile-menu>
+  <a href="index.html">Главная</a>
+  <a href="directions.html">Направления</a>
+  <a href="trial.html">Пробный урок</a>
+  <a href="profile.html">Профиль</a>
+</div>
+
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="index.html">Главная</a>
+        <a href="directions.html">Направления</a>
+        <a href="trial.html">Пробный урок</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="mobile-menu-btn" data-mobile-menu-btn>☰</button>
+      <div class="theme-toggle" data-theme-toggle>
+        <span class="theme-toggle-icon">🌓</span>
+        <span data-theme-label>Тёмная</span>
+      </div>
+      <div class="profile-menu-wrapper" data-profile-wrapper>
+        <button type="button" class="profile-avatar-btn" data-profile-avatar style="display:none;">U</button>
+        <a href="auth.html" class="btn btn-outline" data-login-btn>Войти</a>
+        <div class="profile-menu" data-profile-menu>
+          <div class="profile-menu-header" data-profile-menu-header>Привет!</div>
+          <div class="profile-menu-item" data-menu-profile>Профиль</div>
+          <div class="profile-menu-item" data-menu-admin style="display:none;">Админ‑панель</div>
+          <div class="profile-menu-item" data-menu-logout>Выйти</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section hero">
+    <div>
+      <h1 class="hero-title">
+        Современная <span>музыкальная школа</span><br>для детей и взрослых
+      </h1>
+      <p class="hero-subtitle">
+        Индивидуальные занятия, авторские программы и живые концерты учеников.
+        Первое занятие — бесплатно.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Фортепиано</span>
+        <span class="tag">Вокал</span>
+        <span class="tag">Гитара</span>
+        <span class="tag">Сольфеджио</span>
+        <span class="tag">Онлайн и офлайн</span>
+      </div>
+      <div class="hero-actions">
+        <a href="trial.html" class="btn btn-primary">Записаться на пробный урок</a>
+        <a href="directions.html" class="btn btn-outline">Посмотреть направления</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">Почему выбирают нас</div>
+      <p class="hero-card-text">
+        Мы соединяем академическую базу и современный подход: от классики до поп-музыки и саундтреков.
+      </p>
+      <ul class="hero-card-list">
+        <li><span>•</span> Индивидуальные программы под цели ученика</li>
+        <li><span>•</span> Удобное расписание и гибкий формат занятий</li>
+        <li><span>•</span> Регулярные отчётные концерты и студийные записи</li>
+      </ul>
+    </div>
+  </section>
+
+<section class="section">
+  <h2 class="section-title">Наши программы</h2>
+  <p class="section-subtitle">
+    От первых звуков до уверенных выступлений на сцене — подберём формат под ваш уровень и цели.
+  </p>
+
+  <div class="cards-grid programs">
+
+    <!-- Стартовый курс -->
+    <div class="card program-card">
+      <h3>Стартовый курс</h3>
+      <p>
+        Познакомимся с инструментом, ритмом и базовыми приёмами. Подходит тем, кто только начинает.
+      </p>
+
+      <div class="program-meta">
+        <span>4–6 занятий</span>
+        <span>1 раз в неделю • 45 минут</span>
+        <span>Для детей и взрослых</span>
+      </div>
+
+      <a href="trial.html">Пробный урок →</a>
+    </div>
+
+    <!-- Регулярные занятия -->
+    <div class="card program-card">
+      <h3>Регулярные занятия</h3>
+      <p>
+        Системная работа над техникой, слухом и репертуаром. Подготовка к концертам и экзаменам.
+      </p>
+
+      <div class="program-meta">
+        <span>от 3 месяцев</span>
+        <span>1–2 раза в неделю • 45–60 минут</span>
+        <span>Индивидуально</span>
+      </div>
+
+      <a href="directions.html">Выбрать направление →</a>
+    </div>
+
+    <!-- Онлайн-формат -->
+    <div class="card program-card">
+      <h3>Онлайн‑формат</h3>
+      <p>
+        Занятия по видеосвязи, доступ к материалам и домашним заданиям. Удобно из любой точки мира.
+      </p>
+
+      <div class="program-meta">
+        <span>По договорённости</span>
+        <span>45 минут</span>
+        <span>Фортепиано, вокал, теория</span>
+      </div>
+
+      <a href="trial.html?direction=Онлайн">Попробовать онлайн →</a>
+    </div>
+
+    <!-- Подготовка к поступлению -->
+    <div class="card program-card">
+      <h3>Подготовка к поступлению</h3>
+      <p>
+        Сольфеджио, теория, специальность. Готовим к поступлению в училища и вузы.
+      </p>
+
+      <div class="program-meta">
+        <span>Интенсив</span>
+        <span>60 минут</span>
+        <span>С преподавателем‑экспертом</span>
+      </div>
+
+      <a href="trial.html?direction=Поступление">Обсудить программу →</a>
+    </div>
+
+  </div>
+</section>
+
+
+  <section class="section">
+    <h2 class="section-title">Как проходят занятия</h2>
+    <p class="section-subtitle">
+      Мы делаем процесс обучения понятным и мотивирующим — без скучных лекций и перегруза.
+    </p>
+    <div class="cards-grid">
+      <article class="card">
+        <h3 class="card-title">1. Знакомство и цели</h3>
+        <p class="card-desc">
+          На пробном уроке обсуждаем ваш опыт, музыку, которая нравится, и формируем понятные цели.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card-title">2. Индивидуальный план</h3>
+        <p class="card-desc">
+          Преподаватель подбирает упражнения и репертуар под ваш уровень и свободное время.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card-title">3. Регулярная практика</h3>
+        <p class="card-desc">
+          Каждое занятие — шаг вперёд: техника, слух, ритм, музыкальность, уверенность.
+        </p>
+      </article>
+      <article class="card">
+        <h3 class="card-title">4. Концерты и записи</h3>
+        <p class="card-desc">
+          Участие в отчётных концертах и студийных записях — лучший способ почувствовать прогресс.
+        </p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© Музыкальная школа, 2026</span>
+    <span>Музыка ближе, чем кажется.</span>
+  </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
