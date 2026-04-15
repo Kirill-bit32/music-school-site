@@ -721,6 +721,124 @@ window.setStatus = setStatus;
 //      ADMIN PAGE
 // =========================
 
+async function renderAdminTrials() {
+  const adminContent = document.getElementById("adminContent");
+  const totalEl = document.getElementById("adminTotal");
+  const newEl = document.getElementById("adminNew");
+  const doneEl = document.getElementById("adminDone");
+  const searchInput = document.getElementById("adminSearch");
+  const statusFilter = document.getElementById("adminStatusFilter");
+  const directionFilter = document.getElementById("adminDirectionFilter");
+  const bell = document.getElementById("adminBell");
+
+  if (!adminContent) return;
+
+  const q = query(
+    collection(db, TRIALS_COLLECTION),
+    orderBy("createdAt", "desc")
+  );
+
+  const snap = await getDocs(q);
+  const trials = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  const total = trials.length;
+  const newCount = trials.filter(t => t.status === "new").length;
+  const doneCount = trials.filter(t => t.status === "done").length;
+
+  if (totalEl) totalEl.textContent = total;
+  if (newEl) newEl.textContent = newCount;
+  if (doneEl) doneEl.textContent = doneCount;
+
+  if (bell) {
+    if (newCount > 0) {
+      bell.style.display = "inline-flex";
+      bell.textContent = `🔔 Новые заявки: ${newCount}`;
+    } else {
+      bell.style.display = "none";
+    }
+  }
+
+  let filtered = trials;
+
+  const search = (searchInput?.value || "").trim().toLowerCase();
+  if (search) {
+    filtered = filtered.filter(t =>
+      (t.name || "").toLowerCase().includes(search) ||
+      (t.email || "").toLowerCase().includes(search) ||
+      (t.phone || "").toLowerCase().includes(search)
+    );
+  }
+
+  const status = statusFilter ? statusFilter.value : "all";
+  if (status !== "all") {
+    filtered = filtered.filter(t => t.status === status);
+  }
+
+  const dir = directionFilter ? directionFilter.value : "all";
+  if (dir !== "all") {
+    filtered = filtered.filter(t => t.direction === dir);
+  }
+
+  if (!filtered.length) {
+    adminContent.innerHTML = "<p>Заявок по выбранным фильтрам нет.</p>";
+    return;
+  }
+
+  adminContent.innerHTML = filtered.map(t => {
+    let statusColor;
+    switch (t.status) {
+      case "new":
+        statusColor = "background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.7);";
+        break;
+      case "callback":
+        statusColor = "background:rgba(250,204,21,0.12);border-color:rgba(250,204,21,0.7);";
+        break;
+      case "noanswer":
+        statusColor = "background:rgba(249,115,22,0.12);border-color:rgba(249,115,22,0.7);";
+        break;
+      case "confirmed":
+        statusColor = "background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.7);";
+        break;
+      case "cancelled":
+        statusColor = "background:rgba(248,113,113,0.12);border-color:rgba(248,113,113,0.7);";
+        break;
+      case "done":
+      default:
+        statusColor = "background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.7);";
+        break;
+    }
+
+    return `
+      <div class="card">
+        <h2 class="card-title">${t.name}</h2>
+        <div class="card-level">${t.direction}</div>
+        <p class="card-desc">
+          Дата: ${t.date} в ${t.time}<br>
+          Телефон: ${t.phone}<br>
+          Email: ${t.email || "—"}<br>
+          Комментарий: ${t.comment || "—"}<br>
+          Создана: ${formatDateTime(t.createdAt)}
+        </p>
+        <div class="card-meta">
+          <span style="${statusColor}padding:2px 8px;border-radius:999px;border:1px solid rgba(148,163,184,0.6);font-size:11px;">
+            ${statusLabel(t.status || "new")}
+          </span>
+          <span>userId: ${t.userId || "гость"}</span>
+        </div>
+        <div class="card-footer" style="flex-wrap:wrap;gap:6px;">
+          <button class="btn btn-outline admin-btn" data-action="delete" data-id="${t.id}">Удалить</button>
+          <button class="btn btn-outline admin-btn" data-action="callback" data-id="${t.id}">Перезвонить</button>
+          <button class="btn btn-outline admin-btn" data-action="noanswer" data-id="${t.id}">Не дозвонились</button>
+          <button class="btn btn-outline admin-btn" data-action="confirmed" data-id="${t.id}">Подтверждено</button>
+          <button class="btn btn-outline admin-btn" data-action="cancelled" data-id="${t.id}">Отменено</button>
+          <button class="btn btn-primary admin-btn" data-action="done" data-id="${t.id}">
+            ${t.status === "done" ? "Сделать новой" : "Отметить обработанной"}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
 async function setupAdminPage() {
   const adminContent = document.getElementById("adminContent");
   if (!adminContent) return;
