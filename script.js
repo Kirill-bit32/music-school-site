@@ -717,33 +717,7 @@ window.deleteTrial = deleteTrial;
 window.markDone = markDone;
 window.setStatus = setStatus;
 
-+ // =========================
-+ //      ADMIN PAGE
-+ // =========================
-+   if (clearAllBtn) {
-+     clearAllBtn.addEventListener("click", async () => {
-+       if (!confirm("Удалить все заявки?")) return;
-+
-+       const snap = await getDocs(collection(db, TRIALS_COLLECTION));
-+       await Promise.all(snap.docs.map(d => deleteDoc(doc(db, TRIALS_COLLECTION, d.id))));
-+
-+       showToast("Все заявки удалены", "success");
-+       renderAdminTrials();
-+     });
-+   }
-+
-+   adminContent.addEventListener("click", (e) => {
-+     const btn = e.target.closest(".admin-btn");
-+     if (!btn) return;
-+
-+     const id = btn.dataset.id;
-+     const action = btn.dataset.action;
-+
-+     if (action === "delete") deleteTrial(id);
-+     else if (action === "done") markDone(id);
-+     else setStatus(id, action);
-+   });
-+ }
+
 
 // =========================
 //      INIT
