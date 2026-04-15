@@ -882,3 +882,81 @@ footer {
 .directions .card:hover::before {
   opacity: 0.18;
 }
+/* =========================
+   ADMIN PAGE — NEW CARD STYLE
+   ========================= */
+
+.card {
+  background: var(--bg-secondary, #1e1e1e);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-level {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.card-desc {
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.admin-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.admin-btn[data-action="delete"] {
+  border-color: rgba(255, 80, 80, 0.4);
+}
+
+.admin-btn[data-action="delete"]:hover {
+  background: rgba(255, 80, 80, 0.15);
+}
+
+.admin-btn[data-action="done"] {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.admin-btn[data-action="done"]:hover {
+  background: #1d4ed8;
+}
