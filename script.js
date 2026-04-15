@@ -636,18 +636,15 @@ async function setupTrialPage() {
     }
 
     try {
-      await addDoc(collection(db, TRIALS_COLLECTION), {
-        name,
-        phone,
-        email,
-        direction,
-        date,
-        time,
-        comment,
-        userId: currentUser ? currentUser.uid : null,
-        status: "new",
-        createdAt: new Date().toISOString()
-      });
+      await setDoc(doc(db, USERS_COLLECTION, uid), {
+  uid,
+  name,
+  email,
+  level,
+  role,
+  createdAt: new Date().toISOString()
+});
+
 
       localStorage.removeItem(TRIAL_DRAFT_KEY);
       form.reset();
